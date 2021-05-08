@@ -61,16 +61,16 @@ export default function Home() {
   })
 
   // 弦を指定
-  const setSettingsString = (num:number) => {
-    const currentString = () => {
-      return constants.STRING_LIST[0]
-    }
+  // const setSettingsString = (num:number) => {
+  //   const currentString = () => {
+  //     return constants.STRING_LIST[0]
+  //   }
 
-    setSettings({
-      ...settings,
-      strings: currentString()
-    })
-  }
+  //   setSettings({
+  //     ...settings,
+  //     strings: currentString()
+  //   })
+  // }
 
   // 最初のフレットを指定
   // 最後のフレットを指定
@@ -120,8 +120,8 @@ export default function Home() {
 
             <View marginTop="size-600">
               <RadioGroup label="String">
-                {constants.STRING_LIST.map(val => (
-                  <Radio value={val.id.toString()}>
+                {constants.STRING_LIST.map((val, index) => (
+                  <Radio value={val.id.toString()} key={index}>
                     {val.id}
                   </Radio>
                 ))}
