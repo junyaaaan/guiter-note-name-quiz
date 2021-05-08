@@ -52,7 +52,8 @@ export default function Home() {
   },[])
 
   // Settings
-  const [settings, setSettings] = useState({
+  const [settings] = useState({
+  // const [settings, setSettings] = useState({
     strings: constants.STRING_LIST[0],
     startFret: 0,
     lastFret: 3,
@@ -139,8 +140,8 @@ export default function Home() {
 
             <View marginTop="size-160">
               <RadioGroup label="MAX fret">
-                {constants.MAX_FLET_LIST.map(val => (
-                  <Radio value={val.toString()}>
+                {constants.MAX_FLET_LIST.map((val, index) => (
+                  <Radio value={val.toString()} key={index}>
                     {val}
                   </Radio>
                 ))}
