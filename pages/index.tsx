@@ -1,5 +1,5 @@
 import {SSRProvider} from '@react-aria/ssr';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   ToggleButton,
   Flex,
@@ -42,14 +42,24 @@ export default function Home() {
     return maxFingerBord.slice(0, settings.maxFret)
   }
 
-  useEffect(() => {
+  const [isStarted, setIsStarted] = useState(false)
+
+  let intervalNoteChange:any
+  const toggleIsStarted = () => {
+    console.log(isStarted)
     const currentNoteName = () => {
       const VaildNotesName = fingerBord().slice(settings.startFret, settings.lastFret)
       return VaildNotesName[Math.floor(Math.random() * VaildNotesName.length)]
     }
 
-    setCurrentNote(currentNoteName())
-  },[])
+    if(!isStarted) intervalNoteChange = setInterval(() => {
+      setCurrentNote(currentNoteName())
+    }, settings.interval)
+
+    if(isStarted && intervalNoteChange) clearInterval(intervalNoteChange)
+
+    setIsStarted(!isStarted)
+  }
 
   // Settings
   const [settings] = useState({
@@ -57,7 +67,7 @@ export default function Home() {
     strings: constants.STRING_LIST[0],
     startFret: 0,
     lastFret: 3,
-    interval: 10000,
+    interval: 5000,
     maxFret: constants.MAX_FLET_LIST[0]
   })
 
@@ -112,7 +122,17 @@ export default function Home() {
 
             {/* TODO: アイコンにする？ */}
             <Flex marginTop="size-600" justifyContent="center">
-              <ToggleButton isEmphasized width="size-2000" height="size-600" marginX="size-10">START/STOP</ToggleButton>
+              <ToggleButton
+                isEmphasized
+                isSelected={isStarted}
+                width="size-4000"
+                height="size-600"
+                marginX="size-10"
+                onChange={toggleIsStarted}
+                // TODO: キーボードでトグル？
+              >
+                {isStarted ? 'STOP' : 'START'}
+              </ToggleButton>
             </Flex>
           </View>
 
